@@ -1,0 +1,24 @@
+parameters:
+
+
+application:
+    mapping:
+        *: App\Presentation\*\**Presenter
+        Api: App\Presentation\Api\*\**Endpoint
+
+
+database:
+    dsn: 'sqlite::memory:'
+    user:
+    password:
+
+
+latte:
+    strictTypes: yes
+    strictParsing: yes
+
+
+di:
+    export:
+        parameters: no
+        tags: no

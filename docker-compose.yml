@@ -1,0 +1,28 @@
+services:
+  php:
+    container_name: api-project.app
+    image: thecodingmachine/php:8.2-v5-fpm-node22
+    working_dir: /src
+    volumes:
+      - .:/src
+      - ./stages/dev/config/php.ini:/usr/local/etc/php/php.ini
+    environment:
+      PHP_EXTENSION_PDO_PGSQL: '1'
+      PHP_EXTENSION_PGSQL: '1'
+      PHP_EXTENSION_INTL: '1'
+      PHP_EXTENSION_GD: '1'
+      PHP_EXTENSION_IMAP: '1'
+      PHP_INI_UPLOAD_MAX_FILESIZE: '5M'
+      DEBUG: 'true'
+
+  nginx:
+    container_name: api-project.nginx
+    image: nginx
+    restart: on-failure
+    volumes:
+      - .:/src
+      - ./stages/dev/config/nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - php
+    ports:
+      - "8888:80"

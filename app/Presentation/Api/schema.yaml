@@ -1,0 +1,91 @@
+openapi: 3.0.4
+
+info:
+  title: API Project Presentation
+  description: Simple API for code presentation purposes.
+  version: 1.0.0
+
+servers:
+  - url: http://loclahost:8888
+    description: Localhost server
+
+paths:
+  /api/v1/users:
+    get:
+      summary: Returns a list of users.
+      responses:
+        "200":
+          description: A array of users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/User"
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        email:
+          type: string
+          format: email
+        name:
+          type: string
+        role:
+          $ref: "#/components/schemas/Role"
+      required:
+        - id
+        - email
+        - name
+        - role
+      example:
+        id: 1
+        email: "user@example.com"
+        name: "John Doe"
+        role: "user"
+
+    UserCreate:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          format: password
+        name:
+          type: string
+        role:
+          $ref: "#/components/schemas/Role"
+      required:
+        - email
+        - password
+        - name
+        - role
+
+    UserUpdate:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          format: password
+        name:
+          type: string
+        role:
+          $ref: "#/components/schemas/Role"
+
+    Role:
+      type: string
+      enum:
+        - admin
+        - author
+        - reader

@@ -1,0 +1,15 @@
+services:
+    - App\Core\RouterFactory::createRouter
+
+    - App\Core\Api\Request\ServerRequestFactory
+    - App\Core\Api\Response\ServerResponseFactory
+    - App\Core\Api\Request\BaseRequestValidator('%appDir%/Presentation/Api/schema.yaml')
+    - App\Core\Api\Response\BaseResponseValidator('%appDir%/Presentation/Api/schema.yaml')
+
+search:
+    - in: %appDir%
+      classes:
+            - *Facade
+            - *Factory
+            - *Repository
+            - *Service
