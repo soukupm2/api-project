@@ -21,7 +21,9 @@
 		"tracy/tracy": "^2.10",
 		"league/openapi-psr7-validator": "^0.22.0",
 		"guzzlehttp/psr7": "^2.7",
-		"ramsey/uuid": "^4.7"
+		"ramsey/uuid": "^4.7",
+		"contributte/api-router": "^6.0",
+		"firebase/php-jwt": "^6.11"
 	},
 	"require-dev": {
 		"roave/security-advisories": "dev-latest",

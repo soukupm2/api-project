@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core;
 
+use Contributte\ApiRouter\ApiRoute;
 use Nette;
 use Nette\Application\Routers\RouteList;
 
@@ -15,24 +16,64 @@ final class RouterFactory
     {
         $router = new RouteList();
 
-        $frontRouter = new RouteList('Front');
-        $frontRouter->addRoute('<presenter>/<action>[/<id>]', 'Home:default');
-
-        $apiRouter = self::createApiV1Router();
-
-        $router->add($apiRouter);
-        $router->add($frontRouter);
-
-        return $router;
-    }
-
-    private static function createApiV1Router(): RouteList
-    {
         $apiPrefix = '/api/v1';
 
-        $apiRouter = new RouteList('Api');
-        $apiRouter->addRoute("{$apiPrefix}/users", 'V1:UserList:');
+        $router->add(
+            new ApiRoute("{$apiPrefix}/auth/register", 'ApiV1:AuthRegister', [
+                'methods' => ['POST' => 'post'],
+            ])
+        );
 
-        return $apiRouter;
+        $router->add(
+            new ApiRoute("{$apiPrefix}/auth/login", 'ApiV1:AuthLogin', [
+                'methods' => ['POST' => 'post'],
+            ])
+        );
+
+        $router->add(
+            new ApiRoute("{$apiPrefix}/users", 'ApiV1:UserList', [
+                'methods' => ['GET' => 'get'],
+            ])
+        );
+
+        $router->add(
+            new ApiRoute("{$apiPrefix}/users", 'ApiV1:User', [
+                'methods' => ['POST' => 'post'],
+            ])
+        );
+
+        $router->add(
+            new ApiRoute("{$apiPrefix}/users/<id>", 'ApiV1:User', [
+                'methods' => [
+                    'GET' => 'get',
+                    'PUT' => 'put',
+                    'DELETE' => 'delete',
+                ]
+            ])
+        );
+
+        $router->add(
+            new ApiRoute("{$apiPrefix}/articles", 'ApiV1:ArticleList', [
+                'methods' => ['GET' => 'get'],
+            ])
+        );
+
+        $router->add(
+            new ApiRoute("{$apiPrefix}/articles", 'ApiV1:Article', [
+                'methods' => ['POST' => 'post'],
+            ])
+        );
+
+        $router->add(
+            new ApiRoute("{$apiPrefix}/articles/<id>", 'ApiV1:Article', [
+                'methods' => [
+                    'GET' => 'get',
+                    'PUT' => 'put',
+                    'DELETE' => 'delete',
+                ],
+            ])
+        );
+
+        return $router;
     }
 }

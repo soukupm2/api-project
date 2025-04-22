@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Presentation\Api;
 
-use App\Core\Api\Exception\Request\Method\InvalidHttpMethodRequestException;
+use App\Core\Api\Exception\Request\InvalidHttpMethodRequestException;
 use App\Core\Api\Request\RequestValidator;
 use App\Core\Api\Response\ApiResponse;
 use App\Core\Api\Response\ApiResponseData;
@@ -17,7 +17,7 @@ use Nette\DI\Attributes\Inject;
 use Tracy\Debugger;
 use Tracy\ILogger;
 
-class Endpoint implements IPresenter
+abstract class Endpoint implements IPresenter
 {
     private const METHODS = ['head', 'get', 'post', 'put', 'patch', 'delete', 'options'];
 
@@ -43,7 +43,7 @@ class Endpoint implements IPresenter
             $methodName = $handler->getName();
 
             /** @var ApiResponseData $response */
-            $response = $this->{$methodName}();
+            $response = $this->{$methodName}($request);
 
             $this->httpResponse->setCode($response->statusCode);
             $this->httpResponse->setContentType($response->contentType, 'utf-8');
@@ -62,6 +62,9 @@ class Endpoint implements IPresenter
 
             return new JsonResponse([
                 'error' => 'An error occurred while processing request',
+                'url' => (string) $this->httpRequest->getUrl(),
+                'method' => $this->httpRequest->getMethod(),
+                'request' => $request->getPresenterName(),
             ]);
         }
     }

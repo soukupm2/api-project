@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Presentation\Api\V1\UserList;
+namespace App\Presentation\Api\V1;
 
 use App\Core\Api\Response\ApiResponseData;
 use App\Presentation\Api\Endpoint;
@@ -15,7 +15,7 @@ class UserListEndpoint extends Endpoint
         return new ApiResponseData(
             payload: [
                 [
-                    'id' => Uuid::uuid4()->toString(),
+                    'id' => 123456789,
                     'email' => 'test@test.com',
                     'name' => 'Test User',
                     'role' => 'admin',

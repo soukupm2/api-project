@@ -2,9 +2,8 @@
 
 declare(strict_types=1);
 
-namespace App\Core\Api\Exception\Request\Method;
+namespace App\Core\Api\Exception\Request;
 
-use App\Core\Api\Exception\Request\BadRequestException;
 use Nette\Application\Request;
 use Throwable;
 

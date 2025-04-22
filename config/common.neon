@@ -2,9 +2,10 @@ parameters:
 
 
 application:
+    errorPresenter: Error
     mapping:
-        *: App\Presentation\*\**Presenter
-        Api: App\Presentation\Api\*\**Endpoint
+        *: App\Presentation\Api\**Endpoint
+        ApiV1: App\Presentation\Api\V1\*Endpoint
 
 
 database:
@@ -22,3 +23,6 @@ di:
     export:
         parameters: no
         tags: no
+
+extensions:
+    apiRouter: Contributte\ApiRouter\DI\ApiRouterExtension
