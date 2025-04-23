@@ -29,3 +29,9 @@ csf:
 
 delete-cache dc:
 	docker exec -it "${PHP_CONTAINER_NAME}" sh -c 'rm -rf temp/cache/*'
+
+db-migrate:
+	docker exec -it "${PHP_CONTAINER_NAME}" sh -c 'vendor/bin/phinx migrate'
+
+run-tests:
+	docker exec -it "${PHP_CONTAINER_NAME}" sh -c 'vendor/bin/tester -d extension=tokenizer tests/'

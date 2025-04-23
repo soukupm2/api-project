@@ -1,19 +1,36 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Presentation\Api\V1;
 
 use App\Core\Api\Response\ApiResponseData;
+use App\Model\User\Dto\UserCreateDto;
+use App\Model\User\Exception\UserAlreadyExistsException;
+use App\Model\User\Handler\UserRegisterHandler;
 use App\Presentation\Api\Endpoint;
-use Nette\Application\Request;
+use Nette\DI\Attributes\Inject;
 use Nette\Http\IResponse;
-use Ramsey\Uuid\Uuid;
 
-class AuthRegisterEndpoint extends Endpoint
+final class AuthRegisterEndpoint extends Endpoint
 {
-    public function post(Request $request): ApiResponseData
-    {
-        \Tracy\Debugger::log($this->httpRequest->getRawBody());
+    #[Inject]
+    public UserRegisterHandler $userCreateHandler;
 
-        return new ApiResponseData(['id' => 123456789], IResponse::S201_Created);
+    public function post(): ApiResponseData
+    {
+        $userCreateDto = UserCreateDto::fromRequestData((string) $this->httpRequest->getRawBody());
+
+        try {
+            $user = $this->userCreateHandler->create($userCreateDto);
+
+            return new ApiResponseData([
+                'id' => $user->id,
+            ], IResponse::S201_Created);
+        } catch (UserAlreadyExistsException $e) {
+            return new ApiResponseData([
+                'error' => $e->getMessage(),
+            ], IResponse::S409_Conflict);
+        }
     }
 }

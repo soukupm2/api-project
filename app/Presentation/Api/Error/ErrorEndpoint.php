@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Presentation\Api\Error;
 
@@ -25,6 +27,8 @@ class ErrorEndpoint implements IPresenter
             ? $exception->getMessage()
             : 'Error while processing request!';
 
-        return new ApiResponse(new ApiResponseData(['message' => $message], $statusCode));
+        return new ApiResponse(new ApiResponseData([
+            'message' => $message,
+        ], $statusCode));
     }
 }

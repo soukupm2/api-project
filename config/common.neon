@@ -9,9 +9,9 @@ application:
 
 
 database:
-    dsn: 'sqlite::memory:'
-    user:
-    password:
+    dsn: '%env.db.dsn%'
+    user: '%env.db.user%'
+    password: '%env.db.password%'
 
 
 latte:

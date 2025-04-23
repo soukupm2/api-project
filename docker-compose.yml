@@ -26,3 +26,22 @@ services:
       - php
     ports:
       - "8888:80"
+
+  db:
+    container_name: api-project.db
+    image: postgres:16-alpine
+    command: [ '-c', 'fsync=off', '-c', 'full_page_writes=off' ]
+    environment:
+      POSTGRES_DB: 'api-project'
+      POSTGRES_USER: 'api-project'
+      POSTGRES_PASSWORD: 'api-project'
+      PGDATABASE: 'api-project'
+      PGUSER: 'api-project'
+      PGPASSWORD: 'api-project'
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+volumes:
+  db-data: ~

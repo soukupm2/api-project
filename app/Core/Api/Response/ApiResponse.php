@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Core\Api\Response;
 
 use Nette;
+use Nette\Utils\Json;
 
 final readonly class ApiResponse implements Nette\Application\Response
 {
@@ -23,7 +24,7 @@ final readonly class ApiResponse implements Nette\Application\Response
         }
 
         if ($this->apiResponseData->payload !== null) {
-            echo Nette\Utils\Json::encode($this->apiResponseData->payload);
+            echo Json::encode($this->apiResponseData->payload);
         }
     }
 }

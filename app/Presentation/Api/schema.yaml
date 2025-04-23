@@ -33,7 +33,9 @@ paths:
                     format: int64
                     readOnly: true
         '400':
-          description: Invalid input
+          description: Invalid data
+        '409':
+          description: Email address already registered
 
   /api/v1/auth/login:
     post:
@@ -74,9 +76,8 @@ paths:
   /api/v1/users:
     get:
       summary: Returns a list of users.
-#      security:
-#        - bearerAuth: []
-      security: []
+      security:
+        - bearerAuth: []
       responses:
         '200':
           description: A array of users
@@ -86,11 +87,12 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/User'
+        '403':
+          description: Forbidden - Admin only
     post:
       summary: Create a new user
-      #      security:
-      #        - bearerAuth: []
-      security: []
+      security:
+        - bearerAuth: []
       requestBody:
         required: true
         content:
@@ -111,6 +113,8 @@ paths:
                     readOnly: true
         '403':
           description: Forbidden - Admin only
+        '409':
+          description: Email address already registered
 
   /api/v1/users/{id}:
     parameters:
@@ -123,9 +127,8 @@ paths:
           readOnly: true
     get:
       summary: Returns a list of users.
-#      security:
-#        - bearerAuth: []
-      security: []
+      security:
+        - bearerAuth: []
       responses:
         '200':
           description: A single user
@@ -139,8 +142,8 @@ paths:
           description: User not found
     put:
       summary: Update user
-      security: []
-#        - bearerAuth: []
+      security:
+        - bearerAuth: []
       requestBody:
         required: true
         content:
@@ -150,14 +153,16 @@ paths:
       responses:
         '204':
           description: User updated
+        '400':
+          description: Validation failed
         '403':
           description: Forbidden - Admin only
         '404':
           description: User not found
     delete:
       summary: Delete user
-      security: []
-      # - bearerAuth: []
+      security:
+       - bearerAuth: []
       responses:
         '204':
           description: User deleted
@@ -181,7 +186,8 @@ paths:
                   $ref: '#/components/schemas/Article'
     post:
       summary: Create a new article
-      security: []
+      security:
+        - bearerAuth: []
       requestBody:
         required: true
         content:
@@ -223,7 +229,8 @@ paths:
           description: Article not found
     put:
       summary: Update article
-      security: []
+      security:
+        - bearerAuth: []
       requestBody:
         required: true
         content:
@@ -239,7 +246,8 @@ paths:
           description: Article not found
     delete:
       summary: Delete article
-      security: []
+      security:
+        - bearerAuth: []
       responses:
         '204':
           description: Article deleted
@@ -261,8 +269,10 @@ components:
         email:
           type: string
           format: email
+          maxLength: 180
         name:
           type: string
+          maxLength: 255
         role:
           $ref: '#/components/schemas/Role'
       required:
@@ -303,18 +313,12 @@ components:
           readOnly: true
         title:
           type: string
+          maxLength: 255
         content:
           type: string
         author_id:
           type: integer
           format: int64
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        updated_at:
-          type: string
-          format: date-time
           readOnly: true
       required:
         - title

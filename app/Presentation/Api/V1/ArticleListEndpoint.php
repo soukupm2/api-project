@@ -1,24 +1,26 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Presentation\Api\V1;
 
 use App\Core\Api\Response\ApiResponseData;
+use App\Model\Article\Article;
+use App\Model\Article\Query\ArticleListQuery;
 use App\Presentation\Api\Endpoint;
-use Ramsey\Uuid\Uuid;
+use Nette\DI\Attributes\Inject;
 
-class ArticleListEndpoint extends Endpoint
+final class ArticleListEndpoint extends Endpoint
 {
+    #[Inject]
+    public ArticleListQuery $articleListQuery;
+
     public function get(): ApiResponseData
     {
-        $data = [
-            'id' => 123456789,
-            'title' => 'test',
-            'content' => 'test test',
-            'author_id' => 123456789,
-            'created_at' => (new \DateTimeImmutable())->format('c'),
-            'updated_at' => (new \DateTimeImmutable())->format('c'),
-        ];
+        \Tracy\Debugger::log(T_FINAL);
 
-        return new ApiResponseData([$data]);
+        $articles = $this->articleListQuery->fetch();
+
+        return new ApiResponseData(array_map(static fn (Article $a) => $a->toResponse(), array_values($articles)));
     }
 }

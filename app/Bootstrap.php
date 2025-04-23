@@ -41,10 +41,8 @@ class Bootstrap
     private function setupContainer(): void
     {
         $configDir = $this->rootDir . '/config';
-        $this->configurator->addStaticParameters([
-            'rootDir' => $this->rootDir,
-        ]);
         $this->configurator->addConfig($configDir . '/common.neon');
         $this->configurator->addConfig($configDir . '/services.neon');
+        $this->configurator->addConfig($configDir . '/env.neon');
     }
 }

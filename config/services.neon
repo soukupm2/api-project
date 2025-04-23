@@ -5,11 +5,13 @@ services:
     - App\Core\Api\Response\ServerResponseFactory
     - App\Core\Api\Request\BaseRequestValidator('%appDir%/Presentation/Api/schema.yaml')
     - App\Core\Api\Response\BaseResponseValidator('%appDir%/Presentation/Api/schema.yaml')
+    - App\Core\Api\Auth\JwtHandler('%env.JWT.publicKey%', '%env.JWT.privateKey%')
+    - App\Core\Api\Auth\Authorizator
 
 search:
-    - in: %appDir%
-      classes:
-            - *Facade
-            - *Factory
-            - *Repository
-            - *Service
+    - in: %appDir%/Model
+      files:
+          - *Query.php
+          - *Handler.php
+          - *HandlerHelper.php
+          - *Repository.php

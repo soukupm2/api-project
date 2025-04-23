@@ -20,27 +20,31 @@ final class RouterFactory
 
         $router->add(
             new ApiRoute("{$apiPrefix}/auth/register", 'ApiV1:AuthRegister', [
-                'methods' => ['POST' => 'post'],
+                'methods' => [
+                    'POST' => 'post',
+                ],
             ])
         );
 
         $router->add(
             new ApiRoute("{$apiPrefix}/auth/login", 'ApiV1:AuthLogin', [
-                'methods' => ['POST' => 'post'],
+                'methods' => [
+                    'POST' => 'post',
+                ],
             ])
         );
 
-        $router->add(
-            new ApiRoute("{$apiPrefix}/users", 'ApiV1:UserList', [
-                'methods' => ['GET' => 'get'],
-            ])
-        );
+        $router->add(new ApiRoute("{$apiPrefix}/users", 'ApiV1:UserList', [
+            'methods' => [
+                'GET' => 'get',
+            ],
+        ]));
 
-        $router->add(
-            new ApiRoute("{$apiPrefix}/users", 'ApiV1:User', [
-                'methods' => ['POST' => 'post'],
-            ])
-        );
+        $router->add(new ApiRoute("{$apiPrefix}/users", 'ApiV1:User', [
+            'methods' => [
+                'POST' => 'post',
+            ],
+        ]));
 
         $router->add(
             new ApiRoute("{$apiPrefix}/users/<id>", 'ApiV1:User', [
@@ -48,19 +52,23 @@ final class RouterFactory
                     'GET' => 'get',
                     'PUT' => 'put',
                     'DELETE' => 'delete',
-                ]
+                ],
             ])
         );
 
         $router->add(
             new ApiRoute("{$apiPrefix}/articles", 'ApiV1:ArticleList', [
-                'methods' => ['GET' => 'get'],
+                'methods' => [
+                    'GET' => 'get',
+                ],
             ])
         );
 
         $router->add(
             new ApiRoute("{$apiPrefix}/articles", 'ApiV1:Article', [
-                'methods' => ['POST' => 'post'],
+                'methods' => [
+                    'POST' => 'post',
+                ],
             ])
         );
 
